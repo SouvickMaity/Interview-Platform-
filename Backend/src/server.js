@@ -31,7 +31,7 @@ if (env.NODE_ENV === "production") {
 }
 
 
-const port=env.PORT;
+const port=Number(env.PORT)||5000;
 
 const startServer= async()=>{
     try{
