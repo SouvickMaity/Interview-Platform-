@@ -1,0 +1,21 @@
+{
+  "name": "interview_platform",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix Backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start":"npm run start --prefix Backend "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SouvickMaity/Interview-Platform-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SouvickMaity/Interview-Platform-/issues"
+  },
+  "homepage": "https://github.com/SouvickMaity/Interview-Platform-#readme",
+  "description": ""
+}
