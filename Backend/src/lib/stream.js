@@ -1,7 +1,7 @@
 import {StreamChat} from "stream-chat";
 import { env } from "./env.js";
 
-const apiKey = env. STREAM_APT_KEY
+const apiKey = env.STREAM_APT_KEY
 const apiSecret = env.STREAM_API_SECRET
 
 if(!apiKey || !apiSecret){
@@ -32,3 +32,4 @@ export const deleteStreamUser = async(userId)=>{
 
 
 //todo : method to genarate token
+
