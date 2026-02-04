@@ -157,7 +157,7 @@ export async function endSession(req,res){
 
      session.status="completed";
     await session.save();
-
+ 
 
     res.status(200).json({msg:"Session ended successfully"});
 
