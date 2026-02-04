@@ -101,6 +101,13 @@ export async function joinSession(req,res){
 
     const session = await Session.findById(id);
     if(!session) return req.status(404).json({msg:"no session is found"});
+    if(session.status!=='active'){
+        return res.status(400).json({msg:"can not joi a complete session"})
+    } 
+
+    if(session.host.toString()===userId.toString()){
+        return res.status(400).json({msg:"host cant join their own session as participent"})
+    }
 
     //check if the session is already full
     if(session.participant) return res.status(404).json({msg:"session is already full"});
@@ -132,7 +139,7 @@ export async function endSession(req,res){
     if(!session) return res.status(404).json({msg:"session not found"});
     
     // check if user is the host 
-    if(session.host.toString()!=userId.toString()) return res.status(403).json({msg:"user must be host this "});
+    if(session.host.toString()!==userId.toString()) return res.status(403).json({msg:"user must be host this "});
 
     //check is session is already completed
     if(session.status=="completed"){
@@ -153,10 +160,10 @@ export async function endSession(req,res){
     res.status(200).json({msg:"Session ended successfully"});
 
 
- } catch (error) {
-    console.log("Error in endSession controller:",error.message);
+    } catch (error) {
+        console.log("Error in endSession controller:",error.message);
         res.status(400).json({msg:"internal server error"});
- }
+    }
 }
 
 
