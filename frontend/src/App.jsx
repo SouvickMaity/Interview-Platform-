@@ -1,29 +1,32 @@
-import { useState } from 'react'
 
-import './App.css'
-import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton, useUser } from '@clerk/clerk-react';
+import {  Navigate, Route, Routes } from 'react-router'
+import HomePage from './pages/HomePage'
+import ProblemsPage from './pages/ProblemsPage'
+import {Toaster} from "react-hot-toast";
 
 function App() {
-  
+  const {isSignedIn} = useUser();
 
   return (
     <>
-    <h1>Welcome to the app</h1>
+    <Routes>
 
-    <SignedOut>
-      <SignInButton mode="modal"/>
-    </SignedOut>
-
-    <SignedIn>
-      <SignOutButton/>
-    </SignedIn>
+    <Route path='/' element={<HomePage/>} />
   
-    <SignedIn>
-      <UserButton/>
-    </SignedIn>
+    <Route path='/problems' element={isSignedIn ? <ProblemsPage/> : <Navigate to={"/"}/> } />
 
+
+    </Routes>
+    <Toaster toastOptions={{duration:3000}}/>
     </>
   )
 }
 
-export default App
+export default App;
+
+
+// set up daisy ui
+
+
+
