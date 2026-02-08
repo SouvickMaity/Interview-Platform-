@@ -1,11 +1,9 @@
 import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
-import axiosInstance from "../lib/axios";
 
 
 const HomePage = async () => {
 
-  const result= await axiosInstance.get("/");
 
   return (
     <div>
