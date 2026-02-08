@@ -2,7 +2,7 @@ import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from '@c
 import toast from 'react-hot-toast';
 
 
-const HomePage = async () => {
+const HomePage = () => {
 
 
   return (
