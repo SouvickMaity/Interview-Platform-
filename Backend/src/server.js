@@ -13,7 +13,39 @@ import sessionRoutes from "./routes/sessionRoutes.js";
 const app=express(); 
 
 app.use(express.json());
-app.use(cors({origin:env.CLIENT_URL, credentials:true}));
+
+const allowedOrigins = [
+  env.CLIENT_URL,           // production frontend
+  "http://localhost:5173",  // local dev
+];
+
+
+//app.use(cors({origin:env.CLIENT_URL, credentials:true}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (Postman, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Allow production + localhost
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow Vercel preview deployments
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
+
+
+
+
 app.use("/api/inngest", serve({ client: inngest,functions}));
 app.use(clerkMiddleware());// this add auth field to request object: req.auth() 
 app.use("/api/chat",chatRoutes);
