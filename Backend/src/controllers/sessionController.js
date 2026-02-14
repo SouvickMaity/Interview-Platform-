@@ -9,12 +9,12 @@ export async function createSession(req,res){
         const clerkId=req.user.clerkId;
 
         if(!problem || !difficulty){
-            return req.status(400).json({msg:"problem and defficulty are required"})
+            return res.status(400).json({msg:"problem and defficulty are required"})
         }
         // genarate a unique call id for stream video
         const callId= `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
         // create session
-        const session = await Session.create(problem,difficulty,userId,callId);
+        const session = await Session.create({problem,difficulty, host:userId, callId});
         // create stream video call
         await streamClient.video.call("default",callId).getOrCreate({
             data:{
@@ -30,7 +30,8 @@ export async function createSession(req,res){
             members:[clerkId]
         });
         await channel.create();
-        res.status(200).json({session});
+        res.status(200).json({ session });
+        
     } catch (error) {
         console.log("Error in createSession controller:",error.message);
         res.status(400).json({msg:"internal server error"});
@@ -41,10 +42,12 @@ export async function createSession(req,res){
 
 export async function getActiveSessions(_,res){
  try {
-    const session = await Session.find({status:"active"}).populate("host","name profileImage email clerkId")
-    .sort({createdAt:-1}).limit(20);
+    const sessions  = await Session.find({status:"active"})
+    .populate("host","name profileImage email clerkId")
+    .sort({createdAt:-1})
+    .limit(20);
 
-    res.status(200).json({session});
+    res.status(200).json({ sessions });
     
  } catch (error) {
     console.log("Error in getSession controller:",error.message);
@@ -61,7 +64,7 @@ export async function getMyRecentSessions(req,res){
        const sessions= await Session.find({status:"completed", $or:[{host:userId},{participant:userId}]})
        .sort({createdAt:-1}).limit(20);
 
-        return res.status(200).json({sessions});
+        return res.status(200).json({ sessions });
 
     } catch (error) {
         console.log("Error in getRecentSession controller:",error.message);
@@ -82,7 +85,7 @@ try {
         if(!session){
             return res.status(404).json({smg:"session not found"});
         }
-        return res.status(200).json({session});
+        return res.status(200).json({ session });
 
 } catch (error) {
     console.log("Error in getSessionById controller:",error.message);
@@ -118,7 +121,7 @@ export async function joinSession(req,res){
     const channel = chatClient.channel("messaging", session.callId)
     await channel.addMembers([clerkId]);
 
-    res.status(200).json({session})
+    res.status(200).json({ session })
 
   } catch (error) {
     console.log("Error in joinSession controller:",error.message);
@@ -134,15 +137,16 @@ export async function endSession(req,res){
     const {id}= req.params;
     const userId= req.user._id;
     
-    const session = Session.findById(id);
+    const session = await Session.findById(id);
 
+    
     if(!session) return res.status(404).json({msg:"session not found"});
     
     // check if user is the host 
     if(session.host.toString()!==userId.toString()) return res.status(403).json({msg:"user must be host this "});
 
     //check is session is already completed
-    if(session.status=="completed"){
+    if(session.status==="completed"){
         return res.status(403).json({msg:"Session already completed "});
     }
 
