@@ -32,14 +32,14 @@ app.get("/books",(req,res)=>{
 
 
 
-//make ready for deployment 
-if (env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// //make ready for deployment 
+// if (env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("/{*any}", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
+//   app.get("/{*any}", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+//   });
+// }
 
 
 const port=Number(env.PORT)||5000;
