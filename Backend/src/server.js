@@ -17,7 +17,7 @@ app.use(express.json());
 const allowedOrigins = [
   env.CLIENT_URL,           // production frontend
    "https://interview-platform-wp9e-git-main-souvickmaitys-projects.vercel.app",
-   "interview-platform-wp9e-hsbsur4m6-souvickmaitys-projects.vercel.app",
+   "https://interview-platform-wp9e-hsbsur4m6-souvickmaitys-projects.vercel.app/dashboard",
 ];
 
 
