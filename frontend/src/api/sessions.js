@@ -1,9 +1,12 @@
 
 
     import axiosInstance from "../lib/axios";
+    
+console.log("AXIOS BASE URL:", axiosInstance.defaults.baseURL);
 
-            console.log("AXIOS BASE URL:", axiosInstance.defaults.baseURL);
+
     export const sessionApi = {
+        
     createSession: async (data) => {
         const response = await axiosInstance.post("/sessions", data);
         return response.data;
