@@ -25,19 +25,8 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, server-to-server)
-      if (!origin) return callback(null, true);
-
-      // Allow production + localhost
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      // Allow Vercel preview deployments
-      if (origin.endsWith(".vercel.app")) {
-        return callback(null, true);
-      }
-
+      if (!origin) return callback(null, true); // Postman/server-to-server
+      if (allowedOrigins.includes(origin)) return callback(null, true);
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
@@ -45,7 +34,9 @@ app.use(
 );
 
 
-
+app.get("/", (req, res) => {
+  res.send("API is running on Render");
+});
 
 app.use("/api/inngest", serve({ client: inngest,functions}));
 app.use(clerkMiddleware());// this add auth field to request object: req.auth() 
