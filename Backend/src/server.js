@@ -22,18 +22,8 @@ const allowedOrigins = [
 
 
 //app.use(cors({origin:env.CLIENT_URL, credentials:true}));
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow Postman or server-side requests
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
 
-app.options("*", cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 
 app.get("/", (req, res) => {
