@@ -17,6 +17,7 @@ app.use(express.json());
 const allowedOrigins = [
   env.CLIENT_URL,           // production frontend
   "http://localhost:5173",  // local dev
+   "https://interview-platform-wp9e.vercel.app"
 ];
 
 
@@ -55,8 +56,7 @@ const __dirname=path.resolve();
 
 
 
-app.get("/books",(req,res)=>{
-
+app.use("/api/books",(req,res)=>{
     res.status(200).json({msg:"success from books"});
 });
 
