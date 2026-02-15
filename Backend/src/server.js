@@ -17,7 +17,7 @@ app.use(express.json());
 const allowedOrigins = [
   env.CLIENT_URL,           // production frontend
    "https://interview-platform-wp9e-git-main-souvickmaitys-projects.vercel.app",
-   "https://interview-platform-wp9e-hsbsur4m6-souvickmaitys-projects.vercel.app/dashboard",
+   "https://interview-platform-wp9e-hsbsur4m6-souvickmaitys-projects.vercel.app",
 ];
 
 
@@ -25,13 +25,15 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // Postman/server-to-server
+      if (!origin) return callback(null, true); // allow Postman or server-side requests
       if (allowedOrigins.includes(origin)) return callback(null, true);
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
 );
+
+app.options("*", cors({ origin: allowedOrigins, credentials: true }));
 
 
 app.get("/", (req, res) => {
