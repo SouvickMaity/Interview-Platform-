@@ -9,13 +9,11 @@ import { clerkMiddleware } from '@clerk/express';
 import chatRoutes from "./routes/chatRoutes.js";
 import sessionRoutes from "./routes/sessionRoutes.js";
 
-
 const app=express(); 
 
 app.use(express.json());
 
-
-app.use(cors({origin:env.CLIENT_URL, credentials:true}));
+app.use(cors());
 
 
 app.get("/", (req, res) => {
