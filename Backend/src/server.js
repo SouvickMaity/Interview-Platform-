@@ -14,16 +14,8 @@ const app=express();
 
 app.use(express.json());
 
-const allowedOrigins = [
-  env.CLIENT_URL,           // production frontend
-   "https://interview-platform-wp9e-git-main-souvickmaitys-projects.vercel.app",
-   "https://interview-platform-wp9e-hsbsur4m6-souvickmaitys-projects.vercel.app",
-];
 
-
-//app.use(cors({origin:env.CLIENT_URL, credentials:true}));
-
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({origin:env.CLIENT_URL, credentials:true}));
 
 
 app.get("/", (req, res) => {

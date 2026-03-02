@@ -1,7 +1,7 @@
 // piston api is a service for code execution 
 
 
-const PISTON_API = "https://emkc.org/api/v2/piston"
+const PISTON_API = import.meta.env.VITE_PISTON_API;
 
 
 const LANGUAGE_VERSIONS = {
